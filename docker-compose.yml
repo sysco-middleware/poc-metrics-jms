@@ -13,5 +13,10 @@ prometheus:
     - 9090:9090
   volumes:
     - /tmp/prometheus.yml:/etc/prometheus/prometheus.yml
+  links:
+      - osb
 osb:
-  image:
+  build: osb
+  ports:
+      - 7001:7001
+      - 5555:5555

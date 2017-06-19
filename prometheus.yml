@@ -5,4 +5,4 @@ scrape_configs:
  - job_name: 'weblogic'
    static_configs:
     - targets:
-      - localhost:7071
+      - osb:5555

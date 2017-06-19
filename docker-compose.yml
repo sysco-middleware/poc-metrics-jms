@@ -1,0 +1,17 @@
+grafana:
+  image: grafana/grafana
+  ports:
+    - 3000:3000
+  environment:
+    GF_SERVER_ROOT_URL: http://grafana.server.name
+    GF_SECURITY_ADMIN_PASSWORD: admin
+  links:
+    - prometheus
+prometheus:
+  image: prom/prometheus
+  ports:
+    - 9090:9090
+  volumes:
+    - /tmp/prometheus.yml:/etc/prometheus/prometheus.yml
+osb:
+  image:

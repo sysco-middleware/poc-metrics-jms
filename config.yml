@@ -1,0 +1,67 @@
+---
+startDelaySecs: 0
+#hostPort: 127.0.0.1:5555
+#jmxUrl: service:jmx:rmi:///jndi/rmi://127.0.0.1:7001/jmxrmi
+ssl: false
+lowercaseOutputName: false
+lowercaseOutputLabelNames: false
+whitelistObjectNames:
+  - "com.bea:Name=*,Type=ServerRuntime"
+  - "com.bea:ServerRuntime=*,Type=ApplicationRuntime,*"
+  - "com.bea:ServerRuntime=*,Type=JDBCOracleDataSourceRuntime,*"
+  - "com.bea:ServerRuntime=*,Type=JMSDestinationRuntime,*"
+  - "com.bea:ServerRuntime=*,Type=SAFRemoteEndpointRuntime,*"
+  - "com.bea:ServerRuntime=*,Type=ThreadPoolRuntime,*"
+
+rules:
+  - pattern: "^com.bea<ServerRuntime=.+, Name=(.+), Type=JDBCOracleDataSourceRuntime><>(.+): (Running|Suspended|Shutdown|Overloaded|Unknown)$"
+    attrNameSnakeCase: true
+    name: weblogic_datasource_$2
+    value: 1
+    labels:
+      name: $1
+      state: $3
+
+  - pattern: "^com.bea<ServerRuntime=.+, Name=(.+), Type=JDBCOracleDataSourceRuntime><>(.+):"
+    attrNameSnakeCase: true
+    name: weblogic_datasource_$2
+    labels:
+      name: $1
+
+  - pattern: "^com.bea<ServerRuntime=.+, Name=(.+), Type=JMSDestinationRuntime, JMSServerRuntime=.+><>(.+):"
+    attrNameSnakeCase: true
+    name: weblogic_messaging_$2
+    labels:
+      destination: $1
+
+  - pattern: "^com.bea<ServerRuntime=.+, Name=(.+), Type=SAFRemoteEndpointRuntime><>(.+):"
+    attrNameSnakeCase: true
+    name: weblogic_messaging_$2
+    labels:
+      endpoint: $1
+
+  - pattern: "^com.bea<ServerRuntime=.+, Name=ThreadPoolRuntime, Type=ThreadPoolRuntime><>(.+):"
+    attrNameSnakeCase: true
+    name: weblogic_threadpool_$1
+
+  - pattern: "^com.bea<ServerRuntime=.+, Name=(.+), Type=ApplicationRuntime><HealthStateJMX>(.+): HEALTH_(.+)"
+    attrNameSnakeCase: true
+    name: weblogic_application_$2
+    value: 1
+    labels:
+      name: $1
+      state: $3
+
+  - pattern: "^com.bea<Name=.+, Type=ServerRuntime><HealthStateJMX>(.+): HEALTH_(.+)"
+    attrNameSnakeCase: true
+    name: weblogic_server_$1
+    value: 1
+    labels:
+      state: $2
+
+  - pattern: "^com.bea<Name=.+, Type=ServerRuntime><>(.+): ([A-Z_]+)$"
+    attrNameSnakeCase: true
+    name: weblogic_server_$1
+    value: 1
+    labels:
+      state: $2

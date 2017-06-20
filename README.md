@@ -88,7 +88,7 @@ Creating pocmetricsjms_prometheus_1
 Creating pocmetricsjms_grafana_1
 ```
 
-### Testing Endpoints
+### Check Endpoints
 
 After starting Compose, you can check some endpoints to validate everything is 
 up and running: 
@@ -98,6 +98,25 @@ up and running:
 - Prometheus: [http://$(docker-machine ip):9090](http://$(docker-machine ip):9090)
 
 - Grafana: [http://$(docker-machine ip):3000](http://$(docker-machine ip):3000)
+
+### Configure Grafana
+
+* Configure Datasource
+
+![Data Source](.img/datasource.png)
+
+* Create Dashboard with Graph 
+
+![Dashboard](.img/dashboard.png)
+
+### Testing
+
+To test the dashboard, start sending messages to one of the queue and see the results
+in the dashboard:
+
+![WLS](.img/wls.png)
+
+![Dashboard Live](.img/dashboard-live.png)
 
 ## TODO
 

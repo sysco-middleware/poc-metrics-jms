@@ -38,5 +38,7 @@ COPY config.yml jmx_prometheus_javaagent-0.9.jar ${DOMAIN_HOME}/
 
 ENV JAVA_OPTIONS="-javaagent:$DOMAIN_HOME/jmx_prometheus_javaagent-0.9.jar=5555:$DOMAIN_HOME/config.yml"
 
+EXPOSE 5555
+
 # Define default command to start script.
 CMD ["/u01/oracle/startDomain.sh"]

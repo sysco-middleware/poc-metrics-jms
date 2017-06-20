@@ -29,3 +29,14 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 */
+task startDockerMachine(type:Exec) {
+    commandLine 'docker-machine', 'start'
+    def standardOutput = new ByteArrayOutputStream()
+    ext.output = {
+        return standardOutput.toString()
+    }
+}
+
+task prepareMachine(type:Exec) {
+    commandLine './prepare-machine.sh'
+}

@@ -7,7 +7,7 @@
 
 # Pull base image
 # ---------------
-FROM oracle/soa:12.2.1.2-quickstart
+FROM jeqo/soa:12.2.1.2-quickstart
 
 # Maintainer
 # ----------
